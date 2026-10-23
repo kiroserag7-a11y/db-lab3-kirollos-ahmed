@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% from "_macros.html" import errors as show_errors %}
+{% block title %}My to-dos{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>To-Do</h1>
+
+  <form class="add" method="post" action="{{ url_for('add_todo') }}" data-validate="todo" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row">
+      <input type="text" name="title" value="{{ add_title }}" placeholder="What needs to be done?"
+             aria-label="New to-do" autocomplete="off">
+      <button class="btn btn-primary" type="submit">Add</button>
+    </div>
+    {{ show_errors(add_errors) }}
+  </form>
+
+  {% if todos %}
+  <div class="bar">
+    <p class="count"><strong>{{ open_count }}</strong> open, <strong>{{ done_count }}</strong> done</p>
+    <div class="filters" role="group" aria-label="Filter to-dos">
+      <button type="button" class="chip is-on" data-filter="all">All</button>
+      <button type="button" class="chip" data-filter="open">Open</button>
+      <button type="button" class="chip" data-filter="done">Done</button>
+    </div>
+  </div>
+
+  <ul class="todos" id="todo-list">
+    {% for t in todos %}
+    <li class="todo{% if t.is_done %} is-done{% endif %}" data-done="{{ 1 if t.is_done else 0 }}">
+      <form class="toggle" method="post" action="{{ url_for('toggle_todo', todo_id=t.todo_id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="is_done" value="{{ 0 if t.is_done else 1 }}">
+        <button class="check" type="submit" aria-pressed="{{ 'true' if t.is_done else 'false' }}"
+                aria-label="{{ 'Mark as not done' if t.is_done else 'Mark as done' }}">
+          {% if t.is_done %}&#10003;{% endif %}
+        </button>
+      </form>
+
+      <form class="edit" method="post" action="{{ url_for('edit_todo', todo_id=t.todo_id) }}" data-validate="todo" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="row">
+          <input type="text" name="title" aria-label="To-do title" autocomplete="off"
+                 value="{{ edit_title if edit_id == t.todo_id else t.title }}">
+          <button class="btn" type="submit">Save</button>
+        </div>
+        {{ show_errors(edit_errors if edit_id == t.todo_id else []) }}
+      </form>
+
+      <form class="del" method="post" action="{{ url_for('delete_todo', todo_id=t.todo_id) }}"
+            data-confirm="Delete this to-do? This cannot be undone.">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-danger" type="submit">Delete</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  <p class="empty" id="filter-empty" hidden>No to-dos match this filter.</p>
+  {% else %}
+  <div class="empty-state">
+    <p class="empty-title">Your list is empty</p>
+    <p>Type something above and press Add to create your first to-do.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

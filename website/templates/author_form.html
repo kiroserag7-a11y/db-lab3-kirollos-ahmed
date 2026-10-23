@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_macros.html" import errors as show_errors %}
+{% block title %}{{ 'Edit author' if author else 'Add author' }}{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>{{ 'Edit author' if author else 'Add author' }}</h1>
+  <form method="post" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {{ show_errors(errors) }}
+    <label for="name">Name</label>
+    <input id="name" type="text" name="name" maxlength="50" value="{{ author.name if author else '' }}">
+    <label for="country">Country</label>
+    <input id="country" type="text" name="country" maxlength="50" value="{{ author.country if author else '' }}">
+    <label for="image">Photo (optional)</label>
+    <input id="image" type="file" name="image" accept="image/*">
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{{ 'Save changes' if author else 'Add author' }}</button>
+      <a href="{{ url_for('library') }}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_macros.html" import errors as show_errors %}
+{% block title %}{{ 'Edit book' if book else 'Add book' }}{% endblock %}
+{% block content %}
+<section class="card card-narrow">
+  <h1>{{ 'Edit book' if book else 'Add book' }}</h1>
+  <form method="post" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {{ show_errors(errors) }}
+    <label for="title">Title</label>
+    <input id="title" type="text" name="title" maxlength="100" value="{{ book.title if book else '' }}">
+    <label for="price">Price</label>
+    <input id="price" type="number" name="price" step="0.01" min="0" value="{{ book.price if book else '' }}">
+    <label for="author_id">Author</label>
+    <select id="author_id" name="author_id">
+      {% for a in authors %}
+      <option value="{{ a.author_id }}" {% if book and book.author_id|string == a.author_id|string %}selected{% endif %}>{{ a.author_id }} - {{ a.name }}</option>
+      {% endfor %}
+    </select>
+    <label for="image">Cover image (optional)</label>
+    <input id="image" type="file" name="image" accept="image/*">
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{{ 'Save changes' if book else 'Add book' }}</button>
+      <a href="{{ url_for('library') }}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

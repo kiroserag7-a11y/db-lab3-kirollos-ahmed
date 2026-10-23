@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.venv/
+.idea/
+.vscode/
+static/uploads/books/*
+!static/uploads/books/.gitkeep
+static/uploads/authors/*
+!static/uploads/authors/.gitkeep

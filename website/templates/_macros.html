@@ -1,0 +1,5 @@
+{% macro errors(items) -%}
+<ul class="errors" role="alert" data-errors{% if not items %} hidden{% endif %}>
+  {%- for e in items %}<li>{{ e }}</li>{% endfor -%}
+</ul>
+{%- endmacro %}
