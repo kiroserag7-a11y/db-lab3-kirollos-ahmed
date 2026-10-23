@@ -4,8 +4,8 @@ Introduction to Database Systems, Alexandria National University, Faculty of Eng
 
 | Name | ID |
 |------|----|
-| Kirollos Serag Mouner | 2304102 |
-| Ahmed Ramdan Mohamed | 2304109 |
+| Kirollos Serag Mouner ellyas | 2304102 |
+| Ahmed Ramdan Mohamed kahrout | 2304109 |
 
 This repository contains Lab 3. The website in `website/` is our **Lab 2 website** (login + to-do list) with the new **Library** pages added (Problem 2). After logging in, use the **Library** link in the top bar.
 
