@@ -21,7 +21,7 @@
     <input id="image" type="file" name="image" accept="image/*">
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">{{ 'Save changes' if book else 'Add book' }}</button>
-      <a href="{{ url_for('library') }}">Cancel</a>
+      <a href="{{ url_for('index') }}">Cancel</a>
     </div>
   </form>
 </section>
